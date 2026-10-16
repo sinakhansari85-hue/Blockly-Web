@@ -1,0 +1,174 @@
+/* ========================================================= Blockly Web - editor styles Layout: toolbox on top, style box below it (only when open), design area takes the rest of the screen and scrolls inside. ========================================================= */
+:root {
+    --bg-toolbox: #1e1e2e;
+    --bg-panel: #262638;
+    --bg-control: #2d2d44;
+    --bg-control-hover: #3a3a5c;
+    --border: #3a3a5c;
+    --text: #e6e6f0;
+    --text-muted: #8a8aa8;
+    --accent: #7c5cff;
+    --accent-hover: #9378ff;
+    --shadow: -3px 3px 10px #040420;
+    --radius: 10px; --gap: 8px;
+}
+
+/* ---------- page layout ---------- */
+body {
+    margin: 0;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: auto auto minmax(0, 1fr);
+}
+
+#toolBox   { grid-row: 1; } .styleBox  { grid-row: 2; } #DesignArea { grid-row: 3; }
+
+/* ---------- editor reset (does not touch the user's page) ---------- */
+#toolBox, #toolBox *, .styleBox, .styleBox * {margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ---------- toolbox ---------- */
+#toolBox {display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--gap);
+    padding: 10px 12px;
+    background-color: var(--bg-toolbox);
+    border-bottom: 1px solid var(--border);
+}
+
+/* ---------- shared look for editor controls ---------- */
+#toolBox button, #toolBox select, .styleBox button, .styleBox input, .styleBox select {
+    min-height: 38px;
+    padding: 8px 12px;
+    color: var(--text);
+    background-color: var(--bg-control);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font: inherit; font-size: 0.9rem;
+}
+
+#toolBox button, #toolBox select, .styleBox button {
+    box-shadow: var(--shadow);
+    cursor: pointer;
+}
+
+#toolBox button:hover, .styleBox button:hover {
+    background-color: var(--bg-control-hover);
+}
+
+#toolBox :focus-visible, .styleBox :focus-visible {outline: 2px solid var(--accent-hover);
+    outline-offset: 2px;
+}
+
+#toolBox .selectedBtn {
+    border-color: var(--accent);
+    color: #fff;
+}
+
+#toolBox #createrBtn, .styleBox .changeBtn {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+#toolBox #createrBtn:hover, .styleBox .changeBtn:hover {
+    background-color: var(--accent-hover);
+    border-color: var(--accent-hover);
+}
+
+/* ---------- style box ---------- */
+.styleBox1 {
+    display: none;
+}
+
+.styleBox {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--gap);
+    max-height: 35vh;
+    overflow-y: auto;
+    padding: 10px 12px;
+    background-color: var(--bg-panel);
+    border-bottom: 1px solid var(--border);
+}
+
+.styleBox input {min-width: 0;
+    flex: 1 1 160px;
+    max-width: 320px;
+}
+
+.styleBox input[type="color"] {
+    flex: 0 0 60px;
+    padding: 2px;
+}
+
+.styleBox input::placeholder {
+    color: var(--text-muted);
+}
+
+/* ---------- design area (the user's page) ---------- */
+#DesignArea {
+    overflow: auto;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+#DesignArea :is(ul, ol):empty {
+    min-height: 40px;
+    outline: 1px dashed var(--text-muted);
+    outline-offset: -1px;
+}
+
+/* outline instead of border, so selecting an element never changes its size */ 
+.selectedUserElement {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+}
+/* ---------- small screens ---------- */
+@media (max-width: 700px) {
+/* one scrollable row instead of many wrapped rows */
+#toolBox {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+#toolBox button,
+#toolBox select {
+    flex: 0 0 auto;
+}
+
+.styleBox {
+    justify-content: flex-start;
+}
+.styleBox input {
+    flex: 1 1 100%;
+    max-width: none;
+}
+}
+/* hover effects only where a real hover exists (not on touch screens) */ @media (hover: none) { #toolBox button:hover, .styleBox button:hover { background-color: var(--bg-control); }
+#toolBox #createrBtn:hover,
+.styleBox .changeBtn:hover {
+    background-color: var(--accent);
+    border-color: var(--accent);
+}
+}
+
+.styleBox .deleteBtn {
+    background-color: #b3261e;
+    border-color: #b3261e;
+    color: #fff;
+}
+
+.styleBox .deleteBtn:hover {
+    background-color: #d93a31;
+    border-color: #d93a31;
+}
